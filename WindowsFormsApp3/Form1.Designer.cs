@@ -157,6 +157,7 @@
             this.Controls.Add(this.txtMin);
             this.Controls.Add(this.txtSeg);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Sistema de votacion de peliculas";
             this.Load += new System.EventHandler(this.Form1_Load);
