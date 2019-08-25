@@ -20,6 +20,7 @@ namespace WindowsFormsApp3
         {
             InitializeComponent();
             pictureBox1.Image = Image.FromFile("img6.png");
+            //memes
         }
 
         private void Form1_Load(object sender, EventArgs e)
