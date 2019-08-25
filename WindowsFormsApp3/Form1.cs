@@ -13,8 +13,8 @@ namespace WindowsFormsApp3
     public partial class Form1 : Form
     {
 
-        public static string[,] arr = new string[4,5];
-        
+        public static string[,] arr = new string[5,4];
+        public static string x = "", y = "";
 
         public Form1()
         {
@@ -29,20 +29,20 @@ namespace WindowsFormsApp3
             arr[0, 1] = "9225";
             arr[0, 2] = "img1.png";
             arr[0, 3] = "false";
-            arr[1, 0] = "walter22";
-            arr[1, 1] = "9225";
+            arr[1, 0] = "j0s3";
+            arr[1, 1] = "4301";
             arr[1, 2] = "img1.png";
             arr[1, 3] = "false";
-            arr[2, 0] = "walter22";
-            arr[2, 1] = "9225";
+            arr[2, 0] = "xmariox";
+            arr[2, 1] = "2646";
             arr[2, 2] = "img1.png";
             arr[2, 3] = "false";
-            arr[3, 0] = "walter22";
-            arr[3, 1] = "9225";
+            arr[3, 0] = "ana420";
+            arr[3, 1] = "9580";
             arr[3, 2] = "img1.png";
             arr[3, 3] = "false";
-            arr[4, 0] = "walter22";
-            arr[4, 1] = "9225";
+            arr[4, 0] = "bleshin";
+            arr[4, 1] = "7794";
             arr[4, 2] = "img1.png";
             arr[4, 3] = "false";
         }
@@ -51,40 +51,41 @@ namespace WindowsFormsApp3
        
 
         private void Btniniciar_Click(object sender, EventArgs e)
-        {   
-            
-            if ((txtnumero.Text != "") && (txtcontra.Text != ""))
+        {
+            bool chkuser = false;
+            for (int i = 0; i < 5; i++)
             {
-                if ()
+                for (int j = 0; j < 2; j++)
                 {
-                    MessageBox.Show("A ingresado al sistema");
-                   this.Hide();
+                    if (arr[i, j] == txtnumero.Text)
+                    {
+                        chkuser = true;
+                        break;
+                    }
+                }
+            }
+            if(chkuser)
+            {
+                MessageBox.Show("A ingresado al sistema");
+                this.Hide();
 
-                    Form2 frm = new Form2();
-                    frm.txtusuario.Text = txtnumero.Text;
-                    
-                    frm.Show();
-                   
-                
+                Form2 frm = new Form2();
+                frm.txtusuario.Text = txtnumero.Text;
 
+                frm.Show();
+            }
+            else
+            {
+                if (txtnumero.Text == "")
+                {
+                    MessageBox.Show("No puede dejar campos vacios");
                 }
                 else
                 {
                     MessageBox.Show("Datos incorrectos");
                     txtnumero.Clear();
-                    txtcontra.Clear();
                 }
             }
-            else
-            {
-                MessageBox.Show("No puede dejar campos vacios");
-            }
-
-           
-
-
-
-            // pictureBox4.Image = Image.FromFile("img1.png");
         }
 
         private void Txtnumero_KeyDown(object sender, KeyEventArgs e)
@@ -100,14 +101,14 @@ namespace WindowsFormsApp3
                 {
                     if (arr[i, j] == txtnumero.Text)
                     {
-
+                        pictureBox1.Image = Image.FromFile("img1.png");
+                        break;
+                    }
+                    else
+                    {
+                        pictureBox1.Image = Image.FromFile("img6.png");
                     }
                 }
-            }
-
-            if(txtnumero.Text == "" )
-            {
-                
             }
         }
     }
