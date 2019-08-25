@@ -14,17 +14,14 @@ namespace WindowsFormsApp3
     {
 
         public static string[,] arr = new string[5,4];
-        public static string x = "", y = "";
+        public static int userx = 0, usery = 0;
+        public static Form2 frm = new Form2();
 
         public Form1()
         {
             InitializeComponent();
             pictureBox1.Image = Image.FromFile("img6.png");
             //memes
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
             arr[0, 0] = "walter22";
             arr[0, 1] = "9225";
             arr[0, 2] = "img1.png";
@@ -47,8 +44,10 @@ namespace WindowsFormsApp3
             arr[4, 3] = "false";
         }
 
-       
-       
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //MessageBox.Show("test yes");
+        }
 
         private void Btniniciar_Click(object sender, EventArgs e)
         {
@@ -59,6 +58,8 @@ namespace WindowsFormsApp3
                 {
                     if (arr[i, j] == txtnumero.Text)
                     {
+                        userx = i;
+                        usery = j;
                         chkuser = true;
                         break;
                     }
@@ -66,12 +67,13 @@ namespace WindowsFormsApp3
             }
             if(chkuser)
             {
-                MessageBox.Show("A ingresado al sistema");
+                MessageBox.Show("Vote por su pelicula favorita");
                 this.Hide();
-
-                Form2 frm = new Form2();
-                frm.txtusuario.Text = txtnumero.Text;
-
+                frm.txtusuario.Text = Form1.arr[Form1.userx, 0];
+                if (Form1.arr[userx, 3] == "true")
+                {
+                    frm.BlockVote();
+                }
                 frm.Show();
             }
             else
@@ -82,7 +84,7 @@ namespace WindowsFormsApp3
                 }
                 else
                 {
-                    MessageBox.Show("Datos incorrectos");
+                    MessageBox.Show("Nickname/Codigo de cliente no valido");
                     txtnumero.Clear();
                 }
             }
@@ -95,21 +97,56 @@ namespace WindowsFormsApp3
 
         private void Txtnumero_TextChanged(object sender, EventArgs e)
         {
-            for(int i = 0; i < 5; i++)
+
+            bool chkuser = false;
+            for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
                     if (arr[i, j] == txtnumero.Text)
                     {
-                        pictureBox1.Image = Image.FromFile("img1.png");
+                        chkuser = true;
                         break;
-                    }
-                    else
-                    {
-                        pictureBox1.Image = Image.FromFile("img6.png");
                     }
                 }
             }
+            if (chkuser)
+            {
+                ImgSelect(txtnumero.Text);
+            }
+            else
+            {
+                pictureBox1.Image = Image.FromFile("img6.png");
+            }
+        }
+
+        private void ImgSelect(string usr)
+        {
+            if(usr=="walter22"||usr=="9225")
+            {
+                pictureBox1.Image = Image.FromFile("img1.png");
+            }
+            else if (usr == "j0s3" || usr == "4301")
+            {
+                pictureBox1.Image = Image.FromFile("img2.png");
+            }
+            else if (usr == "xmariox" || usr == "2646")
+            {
+                pictureBox1.Image = Image.FromFile("img3.png");
+            }
+            else if (usr == "ana420" || usr == "9580")
+            {
+                pictureBox1.Image = Image.FromFile("img4.png");
+            }
+            else if (usr == "bleshin" || usr == "7794")
+            {
+                pictureBox1.Image = Image.FromFile("img5.png");
+            }
+        }
+
+        public void SetVoted(int posx)
+        {
+            Form1.arr[posx, 3] = "true";
         }
     }
     }

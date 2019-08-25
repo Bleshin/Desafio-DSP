@@ -14,7 +14,10 @@ namespace WindowsFormsApp3
 {
     public partial class Form2 : Form
     {
+        public static Form1 frmm = new Form1();
         Stopwatch oSW = new Stopwatch();
+        int peli1 = 0, peli2 = 0, peli3 = 0;
+        
         public Form2()
         {
             InitializeComponent();
@@ -29,88 +32,130 @@ namespace WindowsFormsApp3
             oSW.Start();
             timer1.Enabled = true;
 
-            string[] series = { "candidato 1", "candidato 2", "candidato 3" };
-            int[] puntos = { 23, 10, 70 };
+            DrawPieChart(peli1, peli2, peli3);
 
-            chart1.Titles.Add("votaciones");
-
-            for (int i = 0; i < series.Length; i++)
-            {
-                Series serie = chart1.Series.Add(series[i]);
-                serie.Label = puntos[i].ToString();
-                serie.Points.Add(puntos[i]);
-            }
-
-            if (txtusuario.Text == "walter")
+            if (txtusuario.Text == "walter22")
             {
                 pictureBox4.Image = Image.FromFile("img1.png");
             }
-            if (txtusuario.Text == "jose")
+            else if (txtusuario.Text == "j0s3")
             {
                 pictureBox4.Image = Image.FromFile("img2.png");
             }
-            if (txtusuario.Text == "mario")
+            else if (txtusuario.Text == "xmariox")
             {
                 pictureBox4.Image = Image.FromFile("img3.png");
             }
-            if (txtusuario.Text == "ana")
+            else if (txtusuario.Text == "ana420")
             {
                 pictureBox4.Image = Image.FromFile("img4.png");
             }
-            if (txtusuario.Text == "maria")
+            else if (txtusuario.Text == "bleshin")
             {
                 pictureBox4.Image = Image.FromFile("img5.png");
             }
-
+            else if (txtusuario.Text == "")
+            {
+                pictureBox4.Image = Image.FromFile("img7.png");
+            }
 
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
+        public void Timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)oSW.ElapsedMilliseconds);
 
             txtMin.Text = ts.Minutes.ToString().Length < 2 ? "0" + ts.Minutes.ToString() : ts.Minutes.ToString();
             txtSeg.Text = ts.Seconds.ToString().Length < 2 ? "0" + ts.Seconds.ToString() : ts.Seconds.ToString();
-          
-        }
 
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            oSW.Reset();
-            txtMin.Text = "00";
-            txtSeg.Text = "00";
-          
-            timer1.Enabled = false;
-        }
+            frmm.txtMin.Text = ts.Minutes.ToString().Length < 2 ? "0" + ts.Minutes.ToString() : ts.Minutes.ToString();
+            frmm.txtSeg.Text = ts.Seconds.ToString().Length < 2 ? "0" + ts.Seconds.ToString() : ts.Seconds.ToString();
 
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            oSW.Stop();
+            if(txtMin.Text=="15"&&txtSeg.Text=="00")
+            {
+                frmm.Hide();
+                this.Show();
+                txtMin.BackColor = Color.Red;
+                txtSeg.BackColor = Color.Red;
+                BlockVote();
+                btnexit.Enabled = false;
+                tabControl1.Enabled = false;
+                tabControl1.SelectTab(tabPage2);
+                oSW.Stop();
+            }
         }
 
         private void Btnexit_Click(object sender, EventArgs e)
         {
+            txtusuario.Clear();
+            pictureBox4.Image = Image.FromFile("img7.png");
+            tabControl1.SelectTab(tabPage1);
+            frmm.Show();
+            this.Hide();
+            EnableVote();
+        }
+
+        public void BlockVote()
+        {
             button1.Enabled = false;
             button2.Enabled = false;
             button3.Enabled = false;
-            tabControl1.Enabled = false;
-            btnexit.Enabled = false;
-            txtusuario.Clear();
-            pictureBox4.Image = Image.FromFile("img7.png");
-           
+        }
+        public void EnableVote()
+        {
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+        }
 
+        private void DrawPieChart(int value1, int value2, int value3)
+        {
+            //reset your chart series and legends
+            chart1.Series.Clear();
+            chart1.Legends.Clear();
 
+            //Add a new Legend(if needed) and do some formating
+            chart1.Legends.Add("Votacion de peliculas");
+            chart1.Legends[0].LegendStyle = LegendStyle.Table;
+            chart1.Legends[0].Docking = Docking.Bottom;
+            chart1.Legends[0].Alignment = StringAlignment.Center;
+            chart1.Legends[0].Title = "Votacion de peliculas";
+            chart1.Legends[0].BorderColor = Color.Black;
 
-            Form1 frmm = new Form1();
-           
-            frmm.Show();
-          
-            ;
+            //Add a new chart-series
+            string seriesname = "Votacion de peliculas";
+            chart1.Series.Add(seriesname);
+            //set the chart-type to "Pie"
+            chart1.Series[seriesname].ChartType = SeriesChartType.Pie;
+
+            //Add some datapoints so the series. in this case you can pass the values to this method
+            chart1.Series[seriesname].Points.AddXY("John Wick", value1);
+            chart1.Series[seriesname].Points.AddXY("Detective Pikachu", value2);
+            chart1.Series[seriesname].Points.AddXY("Avengers", value3);
+        }
+
+        private void Button1_Click_1(object sender, EventArgs e)
+        {
+            peli1++;
+            BlockVote();
+            frmm.SetVoted(Form1.userx);
+            DrawPieChart(peli1,peli2,peli3);
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            peli2++;
+            BlockVote();
+            frmm.SetVoted(Form1.userx);
+            DrawPieChart(peli1, peli2, peli3);
+        }
+
+        private void Button3_Click_1(object sender, EventArgs e)
+        {
+            peli3++;
+            BlockVote();
+            frmm.SetVoted(Form1.userx);
+            DrawPieChart(peli1, peli2, peli3);
         }
     }
 }
